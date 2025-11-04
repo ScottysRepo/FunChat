@@ -3,18 +3,15 @@ package com.demo.funchat.service;
 import com.demo.funchat.entity.UserEntity;
 import com.demo.funchat.repository.UserRepository;
 import com.demo.funchat.util.JwtUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class AuthService {
 
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
-
-    public AuthService(UserRepository userRepository, JwtUtil jwtUtil) {
-        this.userRepository = userRepository;
-        this.jwtUtil = jwtUtil;
-    }
 
     // Register new user
     public UserEntity register(String username, String password) {

@@ -1,29 +1,28 @@
 package com.demo.funchat.controller;
 
-import com.demo.funchat.model.Message;
+import com.demo.funchat.entity.MessageEntity;
+import com.demo.funchat.service.MessageService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/messages")
 public class MessageController {
 
-    Message test = new Message("Len", "Hello");
-    private List<Message> messages = new ArrayList<>();
+    private final MessageService messageService;
 
-
-    @GetMapping
-    public List<Message> getMessages() {
-        messages.add(test);
-        return messages;
+    public MessageController(MessageService messageService) {
+        this.messageService = messageService;
     }
 
-    @PostMapping
-    public Message addMessage(@RequestBody Message message) {
-        messages.add(message);
-        return message;
+    @PostMapping("/send")
+    public ResponseEntity<?> sendMessage(
+            @RequestParam Long senderId,
+            @RequestParam Long groupId,
+            @RequestParam String content
+    ) {
+        MessageEntity message = messageService.sendMessage(groupId, senderId, content);
+        return ResponseEntity.ok(message);
     }
 }
-

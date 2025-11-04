@@ -11,13 +11,16 @@ Prerequisites:
 
 ---
 
-## 1. Clone the repository
+## 1. Prepare dev environment
 
 ```bash
 git clone https://github.com/YourUsername/FunChat.git
 cd FunChat
 git checkout client-server-backend
+
+npm install
 ```
+- Download Lombok plugin in IntelliJ IDE.
 
 ## 2. Create Database
 Create database in PostgreSQL named fun_chat.
