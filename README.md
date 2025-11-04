@@ -14,7 +14,7 @@ Prerequisites:
 ## 1. Prepare dev environment
 
 ```bash
-git clone https://github.com/YourUsername/FunChat.git
+git clone https://github.com/ScottysRepo/FunChat.git
 cd FunChat
 git checkout client-server-backend
 
