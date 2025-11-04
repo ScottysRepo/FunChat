@@ -5,6 +5,8 @@ import com.demo.funchat.service.MessageService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/messages")
@@ -16,6 +18,9 @@ public class MessageController {
         this.messageService = messageService;
     }
 
+    /**
+     * Send Message
+     */
     @PostMapping("/send")
     public ResponseEntity<?> sendMessage(
             @RequestParam Long senderId,
@@ -24,5 +29,13 @@ public class MessageController {
     ) {
         MessageEntity message = messageService.sendMessage(groupId, senderId, content);
         return ResponseEntity.ok(message);
+    }
+
+    /**
+     * Get all messages of group
+     */
+    @GetMapping("/group/{groupId}")
+    public List<MessageEntity> getMessages(@PathVariable Long groupId) {
+        return messageService.getMessagesByGroupId(groupId);
     }
 }
