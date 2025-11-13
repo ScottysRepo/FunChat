@@ -2,21 +2,21 @@ package com.demo.funchat.controller;
 
 import com.demo.funchat.entity.MessageEntity;
 import com.demo.funchat.service.MessageService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/messages")
 public class MessageController {
 
     private final MessageService messageService;
-
-    public MessageController(MessageService messageService) {
-        this.messageService = messageService;
-    }
+    SimpMessageSendingOperations messagingTemplate;
 
     /**
      * Send Message
@@ -28,6 +28,7 @@ public class MessageController {
             @RequestParam String content
     ) {
         MessageEntity message = messageService.sendMessage(groupId, senderId, content);
+        messagingTemplate.convertAndSend("/topic/group/" + groupId, message);
         return ResponseEntity.ok(message);
     }
 
