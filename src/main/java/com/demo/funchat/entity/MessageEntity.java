@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -31,4 +33,13 @@ public class MessageEntity {
     @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime sentAt;
+
+    @ElementCollection
+    @CollectionTable(
+            name = "message_emotes",
+            joinColumns = @JoinColumn(name = "message_id")
+    )
+    @MapKeyColumn(name = "emote_id")
+    @Column(name = "count")
+    private Map<Integer,Integer> emotes = new HashMap<>();
 }

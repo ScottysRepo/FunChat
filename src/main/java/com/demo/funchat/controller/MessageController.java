@@ -27,7 +27,7 @@ public class MessageController {
             @RequestParam Long groupId,
             @RequestParam String content
     ) {
-        MessageEntity message = messageService.sendMessage(groupId, senderId, content);
+        MessageEntity message = messageService.sendMessage(senderId, groupId, content);
         messagingTemplate.convertAndSend("/topic/group/" + groupId, message);
         return ResponseEntity.ok(message);
     }
@@ -38,5 +38,19 @@ public class MessageController {
     @GetMapping("/group/{groupId}")
     public List<MessageEntity> getMessages(@PathVariable Long groupId) {
         return messageService.getMessagesByGroupId(groupId);
+    }
+
+    /**
+     * Add Emote
+     */
+    @PostMapping("/emote")
+    public ResponseEntity<?> addEmote(
+            @RequestParam Long id,
+            @RequestParam Integer emote
+    ) {
+        MessageEntity updatedMessage = messageService.addEmote(id, emote);
+        messagingTemplate.convertAndSend("/topic/group/" + updatedMessage.getGroupId(), updatedMessage);
+
+        return ResponseEntity.ok(updatedMessage);
     }
 }
