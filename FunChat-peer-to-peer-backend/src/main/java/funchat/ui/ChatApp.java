@@ -34,16 +34,13 @@ public class ChatApp extends Application {
     private final ObservableList<Conversation> conversations = FXCollections.observableArrayList();
     private Conversation activeConversation;
 
-    // UI for messages
+   // UI components
     private final ObservableList<String> messages = FXCollections.observableArrayList();
     private final List<Instant> messageKeys = new ArrayList<>();
-
-    // UI components we need to access later
     private Label activeConversationLabel;
     private ListView<String> messagesView;
     private TextField inputField;
 
-    // JSON mapper for persistence
     private static final ObjectMapper MAPPER = new ObjectMapper()
             .findAndRegisterModules()
             .enable(SerializationFeature.INDENT_OUTPUT);
@@ -164,7 +161,7 @@ public class ChatApp extends Application {
             ListCell<String> cell = new ListCell<>();
 
             ContextMenu menu = new ContextMenu();
-            String[] emojis = {"👍", "❤️", "😂", "😮", "😢"};
+            String[] emojis = {"👍", "❤️", "😂", "😮", "😢"}; //can maybe add more emotes later? 
 
             for (String emoji : emojis) {
                 MenuItem item = new MenuItem("React " + emoji);
@@ -207,24 +204,21 @@ public class ChatApp extends Application {
         return chatArea;
     }
 
-     //create direct message by peer username, and resolve via discovery.
+     //create direct message by peer username, and resolve via discovery
 
     private void createDirectMessageConversation() {
         if (discoveryClient == null) {
-            discoveryClient = new DiscoveryClient("http://localhost:8080/discovery");
+            discoveryClient = new DiscoveryClient("http://localhost:8080/discovery"); //changed from 5050 to 8080 so it works
         }
-
-        // Peer username
+        // Peer username(s)
         TextInputDialog peerNameDialog = new TextInputDialog("friend");
         peerNameDialog.setTitle("Direct Message Setup");
         peerNameDialog.setHeaderText("Peer username");
         peerNameDialog.setContentText("Their username (as registered in discovery):");
-
         String peerName = peerNameDialog.showAndWait().orElse("friend").trim();
         if (peerName.isEmpty()) {
             peerName = "friend";
         }
-
         // Look up peer address: "ip:port"
         String peerAddr = discoveryClient.search(peerName);
         if (peerAddr == null) {
@@ -245,7 +239,7 @@ public class ChatApp extends Application {
         createConversation(title, members);
     }
 
-    
+
      //create group chat using usernames and resolve it with discovery
 
     private void createGroupConversation() {
@@ -253,6 +247,7 @@ public class ChatApp extends Application {
             discoveryClient = new DiscoveryClient("http://localhost:8080/discovery");
         }
 
+            //instructions...
         TextInputDialog groupDialog = new TextInputDialog(username + ",friend1,friend2");
         groupDialog.setTitle("Group Chat Setup");
         groupDialog.setHeaderText("Enter group member usernames (including yourself)");
@@ -297,10 +292,7 @@ public class ChatApp extends Application {
 
         ChatClientService service = new ChatClientService(history -> updateFromHistoryForConversation(conv, history));
         conv.setService(service);
-
-        //Connect to backend, with any existing history
         service.connect(username, members, conv.getLastHistory());
-
         conversations.add(conv);
         selectConversation(conv);
 
@@ -309,7 +301,6 @@ public class ChatApp extends Application {
     }
 
     //Conversation selection and UI updates
-
     private void selectConversation(Conversation conv) {
         this.activeConversation = conv;
         activeConversationLabel.setText(conv.getName());
@@ -340,9 +331,9 @@ public class ChatApp extends Application {
         if (text.isEmpty()) return;
 
         ChatClientService svc = getActiveService();
-        if (svc == null) {
+        if (svc == null) { //make a conversation first
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Please create or select a conversation first.");
-            alert.setHeaderText("No conversation selected");
+            alert.setHeaderText("No conversation selected"); 
             alert.showAndWait();
             return;
         }
@@ -359,7 +350,7 @@ public class ChatApp extends Application {
 
         saveConversations();
 
-        // If this is the active conversation update the UI
+        // If this is the active conversation then it updates the UI. Have to do this so it renders properly
         if (conv == activeConversation) {
             renderHistory(history);
         }
@@ -465,7 +456,7 @@ public class ChatApp extends Application {
         }
     }
 
-    // Conversation
+    // Conversations
     private static class Conversation {
         private final String name;
         private final TreeMap<String, String> members;
@@ -532,6 +523,7 @@ public class ChatApp extends Application {
         }
     }
 
+    // saved convos 
     public static class SavedConversation {
         private String name;
         private TreeMap<String, String> members;
