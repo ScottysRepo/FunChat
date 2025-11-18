@@ -211,7 +211,7 @@ public class ChatApp extends Application {
 
     private void createDirectMessageConversation() {
         if (discoveryClient == null) {
-            discoveryClient = new DiscoveryClient("http://localhost:5050/discovery");
+            discoveryClient = new DiscoveryClient("http://localhost:8080/discovery");
         }
 
         // Peer username
