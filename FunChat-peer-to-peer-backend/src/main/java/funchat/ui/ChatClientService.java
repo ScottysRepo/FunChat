@@ -19,11 +19,6 @@ public class ChatClientService {
         this.historyConsumer = historyConsumer;
     }
 
-    /**
-     * Connect to a specific group chat with the given member map,
-     * seeding the initial local history (e.g., from disk).
-     * members: username -> "ip:port"
-     */
     public void connect(String username,
                         TreeMap<String, String> members,
                         MessageHistory initialHistory) {
@@ -31,14 +26,14 @@ public class ChatClientService {
 
         // Make sure we are included in the group
         if (!members.containsKey(username)) {
-            // Default to localhost:8080 if user forgot to add themselves
+            // Default to localhost:8080 
             members.put(username, "localhost:8080");
         }
 
         // Use your existing GroupChat logic
         groupChat = new GroupChat(username, members);
 
-        // 🆕 Seed the in-memory history with whatever we loaded from disk
+        // Seed the in-memory history with whatever we loaded from disk
         if (initialHistory != null && !initialHistory.isEmpty()) {
             groupChat.messageHistory.putAll(initialHistory);
         }
@@ -63,25 +58,19 @@ public class ChatClientService {
         poller.start();
     }
 
-    /**
-     * Connect without initial history (fresh chat).
-     */
     public void connect(String username, TreeMap<String, String> members) {
         connect(username, members, null);
     }
 
-    /**
-     * Convenience overload: single-user "group" on localhost:8080.
-     */
+    //single-user "group" on localhost:8080.
+     
     public void connect(String username) {
         TreeMap<String, String> members = new TreeMap<>();
         members.put(username, "localhost:8080");
         connect(username, members, null);
     }
 
-    /**
-     * Send a message using GroupChat.
-     */
+    //Send a message using GroupChat.
     public void sendMessage(String text) {
         if (groupChat == null) {
             System.err.println("GroupChat not initialized; call connect() first.");
@@ -96,9 +85,8 @@ public class ChatClientService {
         groupChat.sendMessage(m);
     }
 
-    /**
-     * React to message by its index in the history (same order as UI list).
-     */
+    //React to message by its index  history
+
     public void reactToMessageAtIndex(int index, String emoji) {
         if (groupChat == null) {
             System.err.println("GroupChat not initialized; call connect() first.");
@@ -118,9 +106,6 @@ public class ChatClientService {
         System.out.println("reactToMessageAtIndex: no message at index " + index);
     }
 
-    /**
-     * Legacy helper if you still reference this somewhere.
-     */
     public void reactToMessage(Instant msgTime, String emoji) {
         if (groupChat == null) {
             System.err.println("GroupChat not initialized; call connect() first.");
