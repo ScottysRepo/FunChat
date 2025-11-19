@@ -204,7 +204,7 @@ public class ChatApp extends Application {
         return chatArea;
     }
 
-     //create direct message by peer username, and resolve via discovery
+     //create direct message by peer username, and resolve it via discovery
 
     private void createDirectMessageConversation() {
         if (discoveryClient == null) {
@@ -342,7 +342,7 @@ public class ChatApp extends Application {
         inputField.clear();
     }
 
-    // Calling this by each ChatClientService whenever its MessageHistory changes.
+    // Calling this by each ChatClientService whenever its MessageHistory changes
 
     private void updateFromHistoryForConversation(Conversation conv, MessageHistory history) {
         //Copying history into conversation model
@@ -350,7 +350,8 @@ public class ChatApp extends Application {
 
         saveConversations();
 
-        // If this is the active conversation then it updates the UI. Have to do this so it renders properly
+        // If this is the active conversation then it updates the UI. 
+        //Have to do this so it renders properly
         if (conv == activeConversation) {
             renderHistory(history);
         }
