@@ -33,10 +33,12 @@ Prerequisites:
 ```bash
 git clone https://github.com/ScottysRepo/FunChat.git
 cd FunChat
-git checkout client-server-backend
+cd Selected
+cd FunChat-client-server-backend
 
 npm install
 ```
+- Open FunChat-client-server-backend through IntelliJ IDE.
 - Download Lombok plugin in IntelliJ IDE.
 - Sometimes IntelliJ may ask you to enable the "Enable annotation processing" option
 
