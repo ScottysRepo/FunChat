@@ -1,0 +1,16 @@
+funchat\Main.class
+funchat\ui\ChatApp$SavedState.class
+funchat\Message.class
+funchat\MessageTextDecoder.class
+funchat\discovery\DiscoveryClient.class
+funchat\HostEndpoint.class
+funchat\MessageHistory.class
+funchat\MessageTextEncoder.class
+funchat\ui\ChatApp$1.class
+funchat\ui\ChatClientService.class
+funchat\ui\ChatApp.class
+funchat\ui\ChatApp$Conversation.class
+funchat\ClientEndpoint.class
+funchat\GroupChat.class
+funchat\ui\ChatApp$SavedConversation.class
+funchat\UI.class

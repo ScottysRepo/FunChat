@@ -1,0 +1,354 @@
+:root {
+  --bg: #020617;
+  --card-bg: #020617;
+  --accent: #4f46e5;
+  --accent-soft: rgba(79, 70, 229, 0.16);
+  --border-subtle: rgba(148, 163, 184, 0.4);
+  --text-main: #e5e7eb;
+  --text-muted: #9ca3af;
+  --danger: #dc2626;
+  --success: #22c55e;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", sans-serif;
+  background:
+    radial-gradient(circle at top, #1d1b4c 0, #020617 45%, #000 100%);
+  color: var(--text-main);
+}
+
+/* Let pages control layout; root just stretches */
+#root {
+  min-height: 100%;
+}
+
+/* Links */
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* Buttons */
+button {
+  font: inherit;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  padding: 0.45rem 0.95rem;
+  cursor: pointer;
+  background: var(--accent);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  transition:
+    background 0.16s ease,
+    box-shadow 0.16s ease,
+    transform 0.08s ease,
+    border-color 0.16s ease;
+  box-shadow: 0 12px 45px rgba(15, 23, 42, 0.8);
+}
+button:hover {
+  background: #6366f1;
+  transform: translateY(-1px);
+  box-shadow: 0 18px 55px rgba(15, 23, 42, 0.9);
+}
+button:active {
+  transform: translateY(0);
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.8);
+}
+button:disabled {
+  opacity: 0.6;
+  cursor: default;
+  box-shadow: none;
+}
+
+/* Ghost-style buttons that use `border` + padding */
+button.border {
+  background: rgba(15, 23, 42, 0.9);
+  border-color: var(--border-subtle);
+}
+button.border:hover {
+  background: rgba(15, 23, 42, 1);
+}
+
+/* Inputs */
+input,
+select,
+textarea {
+  font: inherit;
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-subtle);
+  background: rgba(15, 23, 42, 0.9);
+  color: var(--text-main);
+  outline: none;
+  transition:
+    border-color 0.16s ease,
+    box-shadow 0.16s ease,
+    background 0.16s ease;
+}
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-muted);
+}
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--accent);
+  box-shadow:
+    0 0 0 1px rgba(79, 70, 229, 0.4),
+    0 12px 35px rgba(15, 23, 42, 0.9);
+  background: #020617;
+}
+
+/* Cards / panels */
+.bg-white {
+  background:
+    radial-gradient(circle at top left, rgba(15, 23, 42, 0.98), #020617 60%);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  backdrop-filter: blur(24px);
+}
+
+.rounded {
+  border-radius: 0.75rem;
+}
+.rounded-lg {
+  border-radius: 1rem;
+}
+.rounded-2xl {
+  border-radius: 1.25rem;
+}
+.shadow-xl {
+  box-shadow:
+    0 24px 80px rgba(15, 23, 42, 0.95),
+    0 0 0 1px rgba(15, 23, 42, 0.9);
+}
+
+.border {
+  border: 1px solid var(--border-subtle);
+}
+.border-t {
+  border-top: 1px solid rgba(148, 163, 184, 0.5);
+}
+
+.bg-gray-50 {
+  background: rgba(15, 23, 42, 0.9);
+}
+.bg-gray-100 {
+  background: rgba(15, 23, 42, 0.75);
+}
+
+/* Layout utilities */
+.h-screen {
+  height: 100vh;
+}
+.w-full {
+  width: 100%;
+}
+.w-28 {
+  width: 7rem;
+}
+.flex {
+  display: flex;
+}
+.flex-col {
+  flex-direction: column;
+}
+.flex-1 {
+  flex: 1 1 auto;
+}
+.items-center {
+  align-items: center;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-end {
+  justify-content: flex-end;
+}
+.gap-2 {
+  gap: 0.5rem;
+}
+.gap-3 {
+  gap: 0.75rem;
+}
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+.mb-3 {
+  margin-bottom: 0.75rem;
+}
+.mt-1 {
+  margin-top: 0.25rem;
+}
+.mt-3 {
+  margin-top: 0.75rem;
+}
+.pt-2 {
+  padding-top: 0.5rem;
+}
+.p-4 {
+  padding: 1rem;
+}
+.p-5 {
+  padding: 1.25rem;
+}
+.p-6 {
+  padding: 1.5rem;
+}
+.p-8 {
+  padding: 2rem;
+}
+.space-y-3 > * + * {
+  margin-top: 0.75rem;
+}
+.space-y-6 > * + * {
+  margin-top: 1.5rem;
+}
+
+/* Typography */
+.text-xs {
+  font-size: 0.75rem;
+}
+.text-sm {
+  font-size: 0.875rem;
+}
+.text-lg {
+  font-size: 1.125rem;
+}
+.text-xl {
+  font-size: 1.25rem;
+}
+.text-2xl {
+  font-size: 1.5rem;
+}
+.font-bold {
+  font-weight: 700;
+}
+.font-semibold {
+  font-weight: 600;
+}
+
+.text-gray-400 {
+  color: #9ca3af;
+}
+.text-gray-500 {
+  color: #6b7280;
+}
+.text-gray-600 {
+  color: #4b5563;
+}
+.text-green-600 {
+  color: var(--success);
+}
+.text-red-600 {
+  color: var(--danger);
+}
+
+.text-\[11px\] {
+  font-size: 11px;
+}
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.max-w-\[220px\] {
+  max-width: 220px;
+}
+
+.inline-block {
+  display: inline-block;
+}
+.overflow-auto {
+  overflow: auto;
+}
+.overflow-x-auto {
+  overflow-x: auto;
+}
+
+
+.fixed {
+  position: fixed;
+}
+.inset-0 {
+  inset: 0;
+}
+.bg-black\/30 {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Padding helpers used on status badge etc. */
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+.px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+.py-2 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+/* little margin combo used once */
+.text-xs.ml-2 {
+  margin-left: 0.5rem;
+}
+
+.status {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.status.error {
+  color: var(--danger);
+}
+.status.success {
+  color: var(--success);
+}
+
+/* Scrollbars */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.5);
+  border-radius: 999px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.9);
+}
