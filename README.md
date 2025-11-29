@@ -117,7 +117,7 @@ mvn javafx:run
 - In the other test account, once you see a message has appeared you can respond to it, or react with an emoji by clicking on the emojis under the message.
 
 
-### 2.1 Peer to Peer
+### 2.2 Peer to Peer
 
 - After starting the Discovery Server, open two (or more) new terminals to run the GUI, and inside of each GUI that opens click on "Need an account? Register"
 - In each window, create a username when prompted
