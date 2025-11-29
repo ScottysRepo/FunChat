@@ -21,7 +21,7 @@ This is the backend of FunChat implemented by using Client Server architecture s
 
 Prerequisites:
 
-- Java 25
+- Java 21
 - Maven
 - PostgreSQL (database)
 - SwaggerUI
@@ -59,24 +59,76 @@ Run the FunchatApplication class.
 #### (d). Swagger UI
 Use http://localhost:8080/swagger-ui/index.html to check API.
 
+#### (e). Run the React UI in a new terminal
+```bash
+cd FunChat
+cd Selected
+cd FunChat-client-server-backend/frontendtesting
+npm install
+cd my-react-login
+npm run dev
+```
 ---
 
 ### 1.2 Peer-to-Peer backend
 
-//ToDo
+This is the peer-to-peer version of FunChat implemented using a decentralized GroupChat architecture
+with a Spring Boot–based discovery server and a JavaFX desktop client.
 
+- Java 21 or higher
+- Maven 3.8 or higher
+- JavaFX
+- VSCode
+  
+#### (a). Clone the repository
+```bash
+git clone https://github.com/ScottysRepo/FunChat.git
+cd FunChat
+cd Unselected
+```
+
+
+#### (b). Start the Discovery Server
+```bash
+cd FunChat-discovery-server
+mvn spring-boot:run
+```
+ 
+#### (c). Start the peer to peer backend & JavaFX GUI in a new terminal
+```bash
+cd FunChat
+cd Unselected
+cd FunChat-peer-to-peer-backend
+mvn javafx:run
+```  
 ---
 
-### 1.3 Frontend
+## 2. Testing
 
-//ToDo
+### 2.1 Client-Server backend
 
-## 2. Test sample
+- Open two browsers and inside of each window click on "Need an account? Register"
+- Create a username and password for each browser then log in
+- Click on "Open Chats" inside of one window, then click on "New Chat"
+- You can choose to create a group chat or DM. You can also choose to give the group a name.
+- In the "Member IDs" type in the ID number(s) your other test account, then click create.
+- Type a test message in the message field, then click "Send."
+- Inside the other test account window, look for the new DM or group to appear, or you may need to click on "Refresh Chats" depending on your internet connection.
+- In the other test account, once you see a message has appeared you can respond to it, or react with an emoji by clicking on the emojis under the message.
 
-//ToDo
+
+### 2.1 Peer to Peer
+
+- After starting the Discovery Server, open two (or more) new terminals to run the GUI, and inside of each GUI that opens click on "Need an account? Register"
+- In each window, create a username when prompted
+- When prompted for a port, enter 8080 for the first, 8081 for the second, etc.
+- You can choose to create a new direct message or new group chat
+- When prompted for your peer's username, choose the name of the other test account
+- Type a test message in the message field, then click "Send."
+- Inside the other test account window, look for the new DM or group to appear, or you may need to initiate a DM/group chat, and send a message before you can see their message, depending on your internet connection.
+- In the other test account, once you see a message has appeared you can respond to it, or react with an emoji by right clicking on the message, then choosing an emoji.
 
 ---
-
 
 ## 3. Architecture style 1: Client-Server
 
