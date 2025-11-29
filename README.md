@@ -297,7 +297,26 @@ This section elaborates on the differences between the two styles, compares thei
 
 ### 5.2 Candidate Architecture Style 2: Peer-to-Peer
 
-//ToDo
+**Characteristics**
+
+* A lightweight Discovery Server provides username and ip:port lookup, but it doesn't relay chat messages.
+* Clients communicate with each other directly.
+* All message traffic flows directly between peers over WebSockets.
+* In each conversation, one peer becomes the host
+* Every peer keeps a local cached history for auto-reloading on next login.
+
+**Strengths**
+
+* Minimal central infrastructure
+* Scales easily for small groups
+* Local message persistence
+
+**Weaknesses**
+* P2P systems typically suffer from NAT/firewall issues, port conflicts, and peer availability problems.
+* Each client must run a WebSocket client and server, handle history, manage hosting, and synchronize state.
+* High development complexity.
+* No centralized record of users who are online or read reciepts for sent messages.
+* No centrally enforced ordering, which means peers could temporarily see different states until their message histories re-sync.
 
 ### 5.3 Comparison Summary
 
