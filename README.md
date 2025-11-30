@@ -257,10 +257,65 @@ Used by AuthService and security filters.
 | **Procedure calls**   | Controller → Service              | Internal connector providing business logic flow  |
 
 
+
 ## 4. Architecture style 2: Peer-to-Peer
 
-//ToDo
+The backend of peer to peer follows a Peer to Peer architecture, where each user interacts with directly with other users in a groupchat without the user of a centralized server through the use of Java Websockets. Specifically, we use a 'migratable host' peer to peer approach, where each group chat has a 'host' that acts as a server, and if that host disconnects a new host is selected.   
 
+Key Principles: 
+- Each user has a Jakarta Client Endpoint that manages messaging with the host (that includes the user acting as host). 
+- The Selected Host has a Jakarta Server Endpoint, and runs a tyrus embedded server to handle Server Socket sessions. 
+- All connected users carry a copy of the message history for the whole group chat, which is kept up to date through 'merge operations'. 
+- In the event that a host disconnects, a new host is selected which users can connect to. 
+
+### 4.1 Message 
+This is the data structure we use to represent messages. It contains a `contents` field that includes the actual text of the message, a `username` field which records who sent it, and a `time_sent` field that records when the message was sent. 
+
+### 4.2 MessageHistory
+This data structure is an extension of TreeMap<Instant, Message>. Where the keys are the time the message was sent, and the values are the message contents themselves. This MessageHistory object has a 'mergeHistories' method, which will merge two histories into one. It also includes a historyAfter method which is essentially the `tailMap` method for a normal map. 
+
+### 4.3 MessageTextEncoder
+This is a Jakarta websocket text Encoder for MessageHistory objects. It uses Jackson to write the MessageHistory objects to a json which then gets sent as a string via websocket. 
+
+### 4.3 MessageTextDecoder
+This is a Jakarta websocket text Decoder for MessageHistory objects. It uses Jackson to initiate the MessageHistory objects from a json file that was sent as a string via websocket.
+
+### 4.4 Client Endpoint
+Is the Jakarta websocket endpoint for the clients. Uses Jakarta decorators to elncode the MessageTextEncoder and MessageTextDecoder, along with integrating the various methods into the Jakarta endpoint system. 
+
+Field `groupChat` is actually the GroupChat object that instantiates the ClientEndpoint. This is a bit of a violation of OOP principles but it's necessary.  
+Method `onOpen` just records the host session.
+Method `onClose` uses the access to the this.groupChat object to call 'determineHost' to find a new host after the connection with the old host closes.
+Method `onMessage` updates the messageHistory by merging it with the recieved MessageHistory. 
+Method `sendUpdate` sends the users current messageHistory to the host. 
+
+### 4.5 Host Endpoint
+Is the Jakarta websocket endpoint for the host. Uses Jakarta decorators to elncode the MessageTextEncoder and MessageTextDecoder, along with integrating the various methods into the Jakarta endpoint system. 
+
+It's the host equivalent of the client endpoint and carries many of the same methods. The only unique method is `initShared` which is a static method that assigns the messageHistory and groupChat fields of the object. This is necessary because Tyrus initializes the hostEndpoint not the groupchat itself.  
+
+### 4.6 GroupChat Object
+Object representing an instance of a user Group Chat.
+
+field: `members` 
+is a map between the usernames and IP addresses of the members of group chat. This list _includes_ the user itself. 
+
+field: `username`
+The name of the user. 
+
+method: `determineHost`
+
+Creates a client endpoint and attempts to make a websocket with an active host. If no hosts are active, it establishes the user as the host. Note: _If the user becomes host, it still creates a client endpoint and connects with itself._
+
+nethod: `startHosting`
+
+Launches the tyrus embeded server and initializes its associated Jakarta `HostEndpoint` object. 
+
+method: `sendMessage`
+sends a copy of the messageHistory to be merged with the host.
+
+method: `getMessageHistoryUpdated`
+Returns all messages in the message history that were not present the last time the method had been called. This is used for the front end to display.
 
 ## 5. Architecture Style Comparison
 In the early design phase of the project, we evaluated two candidate architecture styles for implementing the group chat system:
