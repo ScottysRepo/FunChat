@@ -309,9 +309,9 @@ Method `determineHost` Creates a client endpoint and attempts to make a websocke
 
 Method `startHosting` launches the tyrus embeded server and initializes its associated Jakarta `HostEndpoint` object. 
 
-method `sendMessage` sends a copy of the messageHistory to be merged with the host.
+Method `sendMessage` sends a copy of the messageHistory to be merged with the host.
 
-method `getMessageHistoryUpdated` returns all messages in the message history that were not present the last time the method had been called. This is used for the front end to display.
+Method `getMessageHistoryUpdated` returns all messages in the message history that were not present the last time the method had been called. This is used for the front end to display.
 
 ### 4.7 Connectors
 | Connector Type        | Example in Project             | Function                                          |
