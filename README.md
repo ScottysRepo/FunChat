@@ -284,9 +284,13 @@ This is a Jakarta websocket text Decoder for MessageHistory objects. It uses Jac
 Is the Jakarta websocket endpoint for the clients. Uses Jakarta decorators to elncode the MessageTextEncoder and MessageTextDecoder, along with integrating the various methods into the Jakarta endpoint system. 
 
 Field `groupChat` is actually the GroupChat object that instantiates the ClientEndpoint. This is a bit of a violation of OOP principles but it's necessary.  
+
 Method `onOpen` just records the host session.
+
 Method `onClose` uses the access to the this.groupChat object to call 'determineHost' to find a new host after the connection with the old host closes.
+
 Method `onMessage` updates the messageHistory by merging it with the recieved MessageHistory. 
+
 Method `sendUpdate` sends the users current messageHistory to the host. 
 
 ### 4.5 Host Endpoint
@@ -298,9 +302,11 @@ It's the host equivalent of the client endpoint and carries many of the same met
 Object representing an instance of a user Group Chat.
 
 field: `members` 
+
 is a map between the usernames and IP addresses of the members of group chat. This list _includes_ the user itself. 
 
 field: `username`
+
 The name of the user. 
 
 method: `determineHost`
@@ -312,10 +318,19 @@ nethod: `startHosting`
 Launches the tyrus embeded server and initializes its associated Jakarta `HostEndpoint` object. 
 
 method: `sendMessage`
+
 sends a copy of the messageHistory to be merged with the host.
 
 method: `getMessageHistoryUpdated`
+
 Returns all messages in the message history that were not present the last time the method had been called. This is used for the front end to display.
+
+### 4.7 Connectors
+| Connector Type        | Example in Project             | Function                                          |
+|-----------------------| --------------------------------- | ------------------------------------------------- |
+| **WebSocket**         | Client Endpoint ↔ Host Endpoint,  | Real-time message updates to all group members    |
+| **Memory Access**     | Endpoints ↔ Group Chat Object     | Allows the end points to update the message history |
+| **Procedure calls**   | UI → Group Chat Object            | Allows the UI to see what new messages have arrived  |
 
 ## 5. Architecture Style Comparison
 In the early design phase of the project, we evaluated two candidate architecture styles for implementing the group chat system:
